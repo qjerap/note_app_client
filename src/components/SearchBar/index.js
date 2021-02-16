@@ -6,15 +6,23 @@ import { setFilterSearch, setFilterCategory } from "../../Slices/postsSlice";
 const Search = (props) => {
   const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState("");
+  const stateBar = useSelector((state) => state.posts.filter.search);
 
   useEffect(() => {
+    if (stateBar === "") {
+      setSearchInput("");
+    }
+  }, [stateBar]);
+
+  const handleChange = (e) => {
+    setSearchInput(e.target.value);
     dispatch(setFilterSearch(searchInput));
     dispatch(setFilterCategory("all"));
-  }, [searchInput]);
+  };
 
   return (
     <Input
-      onChange={(e) => setSearchInput(e.target.value)}
+      onChange={handleChange}
       value={searchInput}
       placeholder="Search notes..."
     />

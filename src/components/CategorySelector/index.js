@@ -8,6 +8,7 @@ const CategorySelector = () => {
 
   const setFilter = (e) => {
     dispatch(setFilterCategory(e.target.value));
+    dispatch(setFilterSearch(""))
   };
 
   return (

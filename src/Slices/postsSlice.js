@@ -8,7 +8,7 @@ export const postsSlice = createSlice({
       currentId: "",
       isModalOpen: false,
     },
-    filter: { category: "all", search: "" },
+    filter: { category: "all", search: null },
     notes: [],
   },
   reducers: {
