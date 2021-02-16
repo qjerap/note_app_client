@@ -1,57 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React from "react";
+import {
+  Container,
+  Grid,
+  GridItem,
+  useColorModeValue,
+  Button,
+  Box,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Lorem,
+} from "@chakra-ui/react";
+import Search from "./components/SearchBar";
+import CategorySelector from "./components/CategorySelector";
+import Posts from "./components/Posts/Posts";
+import Form from "./components/Form/Form";
+import Toggle from "./components/ToggleTheme";
 
 function App() {
+  const bg = useColorModeValue("teal.100", "teal.900");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <React.Fragment>
+      <Container
+        maxW="8xl"
+        centerContent
+        w={["100%", "100%", "100%", "80%"]}
+        p={8}
+      >
+        <Search />
+
+        <Container>
+          <CategorySelector />
+
+          <Box>
+            <Button onClick={onOpen}>CREATE</Button>
+            <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay />
+              <ModalContent>
+                <Form />
+              </ModalContent>
+            </Modal>
+          </Box>
+        </Container>
+
+        <Posts />
+
+        <Toggle />
+      </Container>
+    </React.Fragment>
   );
 }
 
