@@ -2,6 +2,7 @@ import React from "react";
 import {
   Button,
   Box,
+  Flex,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -10,6 +11,10 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Checkbox,
+  Center,
+  Lorem,
+  Text,
 } from "@chakra-ui/react";
 
 import Form from "../../Form/Form";
@@ -32,37 +37,53 @@ const Post = ({ title, description, id, date }) => {
   });
 
   return (
-    <Box p={3} maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
-      <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
-        {title}
-      </Box>
-      <Box>{description}</Box>
-      <Box>{time}</Box>
+    <Box
+      p={3}
+      // h="13rem"
+      w="100%"
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+    >
+      <Flex justifyContent="space-between">
+        <Checkbox />
+        <Center fontWeight="semibold" as="h1" lineHeight="tight" isTruncated>
+          {title}
+        </Center>
+        <Box>
+          <Button onClick={handleDelete}>D</Button>
+          <Button
+            onClick={() => {
+              dispatch(setCurrentId(id));
+              onOpen();
+            }}
+          >
+            E
+          </Button>
+        </Box>
+      </Flex>
 
-      <Button onClick={handleDelete}>delete</Button>
-
-      <Box>
-        <Button
-          onClick={() => {
-            dispatch(setCurrentId(id));
-            onOpen();
-          }}
-        >
-          edit
-        </Button>
-        <Modal
-          isOpen={isOpen}
-          onClose={() => {
-            onClose();
-            dispatch(setCurrentId(""));
-          }}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <Form />
-          </ModalContent>
-        </Modal>
+      <Box mt={3} mb={3} fontSize={["md", "lg", "sm"]}>
+        <Text isTruncated w="100%" noOfLines={4} minH="80px">
+          {description}, Lorem ipsum dolor sit amet consectetur, adipisicing
+          elit. Vero odio cum corrupti quaerat? Lorem ipsum dolor sit, amet
+          consectetur adipisicing elit. 
+        </Text>
       </Box>
+      <Box opacity={0.4}>{time}</Box>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          onClose();
+          dispatch(setCurrentId(""));
+        }}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <Form />
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Post from "./Post/Post";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPostsAsync } from "../../Slices/postsSlice";
+import { Grid, GridItem, Center } from "@chakra-ui/react";
 
 const Posts = () => {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.posts.notes);
-  const category = useSelector((state) => state.posts.filter.category);
-  const search = useSelector((state) => state.posts.filter.search);
+  const filter = useSelector((state) => state.posts.filter);
 
   const [filteredNotes, setFilteredNotes] = useState([]);
 
@@ -17,35 +17,45 @@ const Posts = () => {
 
   useEffect(() => {
     //IF Search Bar is used, Display by text search
-    if (search) {
+    if (filter.search) {
       setFilteredNotes(
         notes.filter((note) => {
-          return note.title.toUpperCase().search(search.toUpperCase()) != -1;
+          return (
+            note.title.toUpperCase().search(filter.search.toUpperCase()) != -1
+          );
         })
       );
       // ELSE, display by categories
     } else {
-      if (category === "all") setFilteredNotes(notes);
+      if (filter.category === "all") setFilteredNotes(notes);
       else {
-        setFilteredNotes(notes.filter((note) => note.category == category));
+        setFilteredNotes(
+          notes.filter((note) => note.category == filter.category)
+        );
       }
     }
-  }, [category, notes, search]);
+  }, [notes, filter]);
 
   return (
-    <div>
+    <Grid
+      templateColumns={["1fr", "1fr", "repeat(2, 1fr)"]}
+      gap={[3, 6]}
+      w="100%"
+    >
       {filteredNotes.map((note) => {
         return (
-          <Post
-            date={note.createdAt}
-            title={note.title}
-            description={note.description}
-            id={note._id}
-            key={note._id}
-          />
+          <Center>
+            <Post
+              date={note.createdAt}
+              title={note.title}
+              description={note.description}
+              id={note._id}
+              key={note._id}
+            />
+          </Center>
         );
       })}
-    </div>
+    </Grid>
   );
 };
 

@@ -2,6 +2,7 @@ import React from "react";
 import {
   Container,
   Grid,
+  Flex,
   GridItem,
   useColorModeValue,
   Button,
@@ -29,27 +30,19 @@ function App() {
 
   return (
     <React.Fragment>
-      <Container
-        maxW="8xl"
-        centerContent
-        w={["100%", "100%", "100%", "80%"]}
-        p={8}
-      >
+      <Container maxW="824px" p={[2, 8]}>
         <Search />
 
-        <Container>
+        <Flex justifyContent="space-between" mt={[3, 6]} mb={[3, 6]}>
           <CategorySelector />
-
-          <Box>
-            <Button onClick={onOpen}>CREATE</Button>
-            <Modal isOpen={isOpen} onClose={onClose}>
-              <ModalOverlay />
-              <ModalContent>
-                <Form />
-              </ModalContent>
-            </Modal>
-          </Box>
-        </Container>
+          <Button onClick={onOpen}>CREATE</Button>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <Form />
+            </ModalContent>
+          </Modal>
+        </Flex>
 
         <Posts />
 
