@@ -6,28 +6,40 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
   Checkbox,
   Center,
-  Lorem,
   Text,
 } from "@chakra-ui/react";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 import Form from "../../Form/Form";
 import { useDispatch } from "react-redux";
-import { deletePostAsync, setCurrentId } from "../../../Slices/postsSlice";
+import {
+  deletePostAsync,
+  setCompletedAsync,
+  setCurrentId,
+} from "../../../Slices/postsSlice";
 
-const Post = ({ title, description, id, date }) => {
+const Post = ({ title, description, id, date, creator, completed }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
+
   const handleDelete = () => {
-    console.log(`post ${id} deleted`);
     dispatch(deletePostAsync(id));
+  };
+  const handleCheck = (e) => {
+    dispatch(
+      setCompletedAsync(id, {
+        title,
+        description,
+        _id: id,
+        date,
+        creator,
+        completed: e.target.checked,
+      })
+    );
   };
 
   const time = new Date(date).toLocaleString("en-US", {
@@ -46,31 +58,53 @@ const Post = ({ title, description, id, date }) => {
       overflow="hidden"
     >
       <Flex justifyContent="space-between">
-        <Checkbox />
-        <Center fontWeight="semibold" as="h1" lineHeight="tight" isTruncated>
+        <Checkbox
+          value="completed"
+          onChange={handleCheck}
+          isChecked={completed}
+        />
+        <Center
+          fontWeight="semibold"
+          as="h1"
+          lineHeight="tight"
+          isTruncated
+          textDecoration={completed && "line-through"}
+          opacity={completed && 0.35}
+        >
           {title}
         </Center>
         <Box>
-          <Button onClick={handleDelete}>D</Button>
           <Button
+            bg="transparent"
+            opacity={completed ? 0.35 : 0.75}
             onClick={() => {
               dispatch(setCurrentId(id));
               onOpen();
             }}
           >
-            E
+            <EditIcon />
+          </Button>
+          <Button bg="transparent" opacity={0.75} onClick={handleDelete}>
+            <DeleteIcon />
           </Button>
         </Box>
       </Flex>
 
       <Box mt={3} mb={3} fontSize={["md", "lg", "sm"]}>
-        <Text isTruncated w="100%" noOfLines={4} minH="80px">
+        <Text
+          isTruncated
+          w="100%"
+          noOfLines={4}
+          minH="80px"
+          opacity={completed && 0.35}
+          textDecoration={completed && "line-through"}
+        >
           {description}, Lorem ipsum dolor sit amet consectetur, adipisicing
           elit. Vero odio cum corrupti quaerat? Lorem ipsum dolor sit, amet
-          consectetur adipisicing elit. 
+          consectetur adipisicing elit.
         </Text>
       </Box>
-      <Box opacity={0.4}>{time}</Box>
+      <Box opacity={0.35}>{time}</Box>
 
       <Modal
         isOpen={isOpen}

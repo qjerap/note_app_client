@@ -26,6 +26,7 @@ const Form = () => {
     title: "",
     description: "",
     category: "",
+    completed: false
   });
 
   const handleChange = (e) => {
@@ -42,7 +43,7 @@ const Form = () => {
     } else {
       dispatch(createPostAsync(noteData));
     }
-    setNoteData({ creator: "", title: "", description: "", category: "" });
+    setNoteData({ creator: "", title: "", description: "", category: "", completed: false });
   };
 
   return (

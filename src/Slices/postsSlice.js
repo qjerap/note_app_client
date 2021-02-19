@@ -22,17 +22,16 @@ export const postsSlice = createSlice({
       state.notes = state.notes.filter((note) => note._id != action.payload);
     },
     updatePost: (state, action) => {
-      state.notes = state.notes.filter(
-        (note) => note._id != action.payload._id
+      state.notes = state.notes.map((note) =>
+        note._id === action.payload._id ? (note = action.payload) : note
       );
-      state.notes.push(action.payload);
-
-      // state.notes = state.notes.map((note) => {
-      //   console.log(note._id, action.payload._id);
-      //   if (note._id == action.payload._id) {
-      //     return (note = action.paylaod);
-      //   }
-      // });
+    },
+    setCompleted: (state, action) => {
+      state.notes.map(
+        (note) =>
+          note._id === action.payload.id &&
+          (note.completed = action.payload.note.completed)
+      );
     },
     setCurrentId: (state, action) => {
       state.edit.currentId = action.payload;
@@ -55,6 +54,7 @@ export const {
   setCurrentId,
   setFilterCategory,
   setFilterSearch,
+  setCompleted,
 } = postsSlice.actions;
 
 export const fetchPostsAsync = () => (dispatch) => {
@@ -71,7 +71,6 @@ export const createPostAsync = (newNote) => (dispatch) => {
 };
 export const updatePostAsync = (newNote, id) => (dispatch) => {
   (async () => {
-    // console.log(newNote, id);
     const data = await api.updatePost(newNote, id);
     dispatch(updatePost(newNote));
   })();
@@ -80,6 +79,12 @@ export const deletePostAsync = (id) => (dispatch) => {
   (async () => {
     const data = await api.deletePost(id);
     dispatch(deletePost(id));
+  })();
+};
+export const setCompletedAsync = (id, note) => (dispatch) => {
+  (async () => {
+    const data = await api.updatePost(note, id);
+    dispatch(setCompleted({ id, note }));
   })();
 };
 

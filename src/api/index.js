@@ -21,7 +21,7 @@ export const createPost = async (newNote) => {
 };
 
 export const updatePost = async (updatedPost, id) => {
-  console.log(id)
+  console.log(id);
   const update = await fetch(`http://localhost:5000/posts/${id}`, {
     method: "PATCH",
     body: JSON.stringify({
@@ -42,6 +42,8 @@ export const deletePost = async (id) => {
       "Content-type": "application/json; charset=UTF-8",
     },
   });
+  
   const res = await deleteNote.json();
   return res;
 };
+

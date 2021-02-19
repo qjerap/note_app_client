@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import Post from "./Post/Post";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPostsAsync } from "../../Slices/postsSlice";
-import { Grid, GridItem, Center } from "@chakra-ui/react";
+import { Grid, Image, Center, Flex, Text, Box } from "@chakra-ui/react";
+import searchSvg from "../../assets/search-image.svg";
+import emptySvg from "../../assets/add-note.svg";
 
 const Posts = () => {
   const dispatch = useDispatch();
@@ -37,25 +39,47 @@ const Posts = () => {
   }, [notes, filter]);
 
   return (
-    <Grid
-      templateColumns={["1fr", "1fr", "repeat(2, 1fr)"]}
-      gap={[3, 6]}
-      w="100%"
-    >
-      {filteredNotes.map((note) => {
-        return (
-          <Center>
-            <Post
-              date={note.createdAt}
-              title={note.title}
-              description={note.description}
-              id={note._id}
-              key={note._id}
-            />
-          </Center>
-        );
-      })}
-    </Grid>
+    <Center>
+      {" "}
+      {notes.length <= 0 && (
+        <Grid placeContent="center">
+        <Text margin={12} textAlign="center" fontSize="l" opacity={0.75}>
+          You don't have any notes yet...
+        </Text>
+        <Image src={emptySvg} m="auto" />
+      </Grid>
+      )}
+      {notes.length > 0 &&
+        (filteredNotes.length ? (
+          <Grid
+            templateColumns={["1fr", "1fr", "repeat(2, 1fr)"]}
+            gap={[3, 6]}
+            w="100%"
+          >
+            {filteredNotes.map((note) => {
+              return (
+                <Post
+                  key={note._id}
+                  completed={note.completed}
+                  creator={note.creator}
+                  date={note.createdAt}
+                  title={note.title}
+                  description={note.description}
+                  id={note._id}
+                />
+              );
+            })}
+          </Grid>
+        ) : (
+          <Grid placeContent="center">
+            <Text margin={10} textAlign="center" fontSize="l" opacity={0.75}>
+              There is no note in the <strong>{filter.category.toUpperCase()}</strong> category
+              yet...
+            </Text>
+            <Image src={searchSvg} m="auto" />
+          </Grid>
+        ))}
+    </Center>
   );
 };
 

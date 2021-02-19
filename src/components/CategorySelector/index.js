@@ -8,22 +8,27 @@ const CategorySelector = () => {
 
   const setFilter = (e) => {
     dispatch(setFilterCategory(e.target.value));
-    dispatch(setFilterSearch(""))
+    dispatch(setFilterSearch(""));
   };
 
   return (
     <div>
       <Box>
-        <Button onClick={setFilter} value="all">
+        <Button onClick={setFilter} value="all" fontSize={["sm", "md"]} mr={1}>
           All
         </Button>
-        <Button onClick={setFilter} value="home">
+        <Button onClick={setFilter} value="home" fontSize={["sm", "md"]} mr={1}>
           Home
         </Button>
-        <Button onClick={setFilter} value="work">
+        <Button onClick={setFilter} value="work" fontSize={["sm", "md"]} mr={1}>
           Work
         </Button>
-        <Button onClick={setFilter} value="personal">
+        <Button
+          onClick={setFilter}
+          value="personal"
+          fontSize={["sm", "md"]}
+          mr={1}
+        >
           Personal
         </Button>
       </Box>

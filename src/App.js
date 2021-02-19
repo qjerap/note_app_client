@@ -1,26 +1,21 @@
 import React from "react";
 import {
   Container,
-  Grid,
   Flex,
-  GridItem,
   useColorModeValue,
   Button,
-  Box,
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
-  Lorem,
+  Text,
 } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 import Search from "./components/SearchBar";
 import CategorySelector from "./components/CategorySelector";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
+import ProgressBar from "./components/ProgressBar";
 import Toggle from "./components/ToggleTheme";
 
 function App() {
@@ -32,22 +27,31 @@ function App() {
     <React.Fragment>
       <Container maxW="824px" p={[2, 8]}>
         <Search />
-
         <Flex justifyContent="space-between" mt={[3, 6]} mb={[3, 6]}>
           <CategorySelector />
-          <Button onClick={onOpen}>CREATE</Button>
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <Form />
-            </ModalContent>
-          </Modal>
+          <Button onClick={onOpen}>
+            <AddIcon fontSize={["xs", "sm"]} />{" "}
+            <Text
+              ml={[0, 0, 2]}
+              fontSize="sm"
+              w={["0", "0", "100%"]}
+              overflow="hidden"
+            >
+              ADD NOTE
+            </Text>
+          </Button>
         </Flex>
-
+        <ProgressBar />
         <Posts />
-
         <Toggle />
       </Container>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <Form />
+        </ModalContent>
+      </Modal>
     </React.Fragment>
   );
 }
