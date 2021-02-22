@@ -6,8 +6,15 @@ const StyleColorMode = () => {
 
   return (
     <>
-      <Button mt={8} size="sm" onClick={toggleColorMode}>
-        Toggle Mode
+      <Button
+        mt="auto"
+        size="sm"
+        onClick={toggleColorMode}
+        position="fixed"
+        bottom={5}
+       
+      >
+        Theme
       </Button>
     </>
   );

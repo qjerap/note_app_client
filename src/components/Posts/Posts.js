@@ -40,14 +40,14 @@ const Posts = () => {
 
   return (
     <Center>
-      {" "}
+      {/* IF there is no notes IN A CATEGORY*/}
       {notes.length <= 0 && (
         <Grid placeContent="center">
-        <Text margin={12} textAlign="center" fontSize="l" opacity={0.75}>
-          You don't have any notes yet...
-        </Text>
-        <Image src={emptySvg} m="auto" />
-      </Grid>
+          <Text margin={12} textAlign="center" fontSize="l" opacity={0.75}>
+            Let's add our first note!
+          </Text>
+          <Image src={emptySvg} m="auto" />
+        </Grid>
       )}
       {notes.length > 0 &&
         (filteredNotes.length ? (
@@ -73,8 +73,8 @@ const Posts = () => {
         ) : (
           <Grid placeContent="center">
             <Text margin={10} textAlign="center" fontSize="l" opacity={0.75}>
-              There is no note in the <strong>{filter.category.toUpperCase()}</strong> category
-              yet...
+              There is no note in the{" "}
+              <strong>{filter.category.toUpperCase()}</strong> category yet...
             </Text>
             <Image src={searchSvg} m="auto" />
           </Grid>
