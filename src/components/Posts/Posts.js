@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Post from "./Post/Post";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPostsAsync } from "../../Slices/postsSlice";
-import { Grid, Image, Center, Flex, Text, Box } from "@chakra-ui/react";
+import { Grid, Image, Center, Text, Heading } from "@chakra-ui/react";
 import searchSvg from "../../assets/search-image.svg";
 import emptySvg from "../../assets/add-note.svg";
 
@@ -43,9 +43,15 @@ const Posts = () => {
       {/* IF there is no notes IN A CATEGORY*/}
       {notes.length <= 0 && (
         <Grid placeContent="center">
-          <Text margin={12} textAlign="center" fontSize="l" opacity={0.75}>
+          <Heading
+            margin={12}
+            textAlign="center"
+            fontSize="3xl"
+            opacity={0.75}
+            fontWeight="400"
+          >
             Let's add our first note!
-          </Text>
+          </Heading>
           <Image src={emptySvg} m="auto" />
         </Grid>
       )}
@@ -70,12 +76,32 @@ const Posts = () => {
               );
             })}
           </Grid>
+        ) : filter.search ? (
+          <Grid placeContent="center">
+            <Heading
+              margin={12}
+              textAlign="center"
+              fontSize="2xl"
+              fontWeight="400"
+              opacity={0.75}
+            >
+              no notes match with «{" "}
+              <strong>{filter.search.toUpperCase()}</strong> »
+            </Heading>
+            <Image src={searchSvg} m="auto" />
+          </Grid>
         ) : (
           <Grid placeContent="center">
-            <Text margin={10} textAlign="center" fontSize="l" opacity={0.75}>
+            <Heading
+              margin={12}
+              textAlign="center"
+              fontSize="2xl"
+              fontWeight="400"
+              opacity={0.75}
+            >
               There is no note in the{" "}
               <strong>{filter.category.toUpperCase()}</strong> category yet...
-            </Text>
+            </Heading>
             <Image src={searchSvg} m="auto" />
           </Grid>
         ))}

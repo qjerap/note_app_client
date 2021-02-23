@@ -98,15 +98,16 @@ const Post = ({ title, description, id, date, creator, completed }) => {
           minH="80px"
           opacity={completed && 0.35}
           textDecoration={completed && "line-through"}
+          whiteSpace="pre-line"
         >
-          {description}, Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Vero odio cum corrupti quaerat? Lorem ipsum dolor sit, amet
-          consectetur adipisicing elit.
+          {description}
         </Text>
       </Box>
       <Box opacity={0.35}>{time}</Box>
 
       <Modal
+        isCentered
+        size={["3xl"]}
         isOpen={isOpen}
         onClose={() => {
           onClose();
@@ -114,8 +115,8 @@ const Post = ({ title, description, id, date, creator, completed }) => {
         }}
       >
         <ModalOverlay />
-        <ModalContent>
-          <Form />
+        <ModalContent borderRadius="1%">
+          <Form onClose={onClose}/>
         </ModalContent>
       </Modal>
     </Box>
