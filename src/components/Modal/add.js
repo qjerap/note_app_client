@@ -10,12 +10,14 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 import Form from "../Form/Form";
 
-const Add = () => {
+const Add = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Button onClick={onOpen}>
+      <Button 
+      disabled={props.disabled}
+      onClick={onOpen}>
         <AddIcon fontSize={["xs", "sm"]} />{" "}
         <Text
           ml={[0, 0, 2]}

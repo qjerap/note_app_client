@@ -6,6 +6,9 @@ import Posts from "./components/Posts/Posts";
 import ProgressBar from "./components/ProgressBar";
 import Toggle from "./components/ToggleTheme";
 import Add from "./components/Modal/add";
+import Auth from "./components/Modal/login";
+
+const user = 0;
 
 function App() {
   const bg = useColorModeValue("teal.100", "teal.900");
@@ -16,10 +19,10 @@ function App() {
         <Search />
         <Flex justifyContent="space-between" mt={[3, 6]} mb={[3, 6]}>
           <CategorySelector />
-          <Add />
+          <Add disabled={user ? false : true} />
         </Flex>
         <ProgressBar />
-        <Posts />
+        {user ? <Posts /> : <Auth />}
         <Toggle />
       </Container>
     </React.Fragment>

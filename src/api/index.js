@@ -1,13 +1,14 @@
-const url = "http://localhost:5000/posts";
+// const url = "https://notes-qp.herokuapp.com";
+const url = "http://localhost:5000";
 
 export const fetchPost = async () => {
-  let data = await fetch(url);
+  let data = await fetch(`${url}/posts`);
   let notes = await data.json();
   return notes;
 };
 
 export const createPost = async (newNote) => {
-  const note = await fetch("http://localhost:5000/posts", {
+  const note = await fetch(`${url}/posts`, {
     method: "POST",
     body: JSON.stringify({
       newNote,
@@ -22,7 +23,7 @@ export const createPost = async (newNote) => {
 
 export const updatePost = async (updatedPost, id) => {
   console.log(id);
-  const update = await fetch(`http://localhost:5000/posts/${id}`, {
+  const update = await fetch(`${url}/posts/${id}`, {
     method: "PATCH",
     body: JSON.stringify({
       updatedPost,
@@ -36,14 +37,13 @@ export const updatePost = async (updatedPost, id) => {
 };
 
 export const deletePost = async (id) => {
-  const deleteNote = await fetch(`http://localhost:5000/posts/${id}`, {
+  const deleteNote = await fetch(`${url}/posts/${id}`, {
     method: "DELETE",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
   });
-  
+
   const res = await deleteNote.json();
   return res;
 };
-
