@@ -9,8 +9,9 @@ export const authSlice = createSlice({
   },
   reducers: {
     signIn: (state, action) => {
+      console.log(action.payload);
       if (action.payload.token) {
-        localStorage.setItem("profile", JSON.stringify(action?.payload));
+        localStorage.setItem("profile", JSON.stringify(action.payload));
         state.profile = action.payload.result;
         state.token = action.payload.token;
       } else {
@@ -38,8 +39,9 @@ export const { signIn, signUp, logOut } = authSlice.actions;
 export const signInAsync = (formData) => (dispatch) => {
   (async () => {
     try {
-      const data = await api.signIn(formData);
+      const { data } = await api.signIn(formData);
       dispatch(signIn(data));
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -48,7 +50,7 @@ export const signInAsync = (formData) => (dispatch) => {
 export const signUpAsync = (formData) => (dispatch) => {
   (async () => {
     try {
-      const data = await api.signUp(formData);
+      const { data } = await api.signUp(formData);
       dispatch(signIn(data));
     } catch (error) {
       console.log(error);

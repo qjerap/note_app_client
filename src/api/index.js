@@ -1,77 +1,20 @@
-// const url = "https://notes-qp.herokuapp.com";
-const url = "http://localhost:5000";
+import axios from "axios";
 
-export const fetchPost = async () => {
-  let data = await fetch(`${url}/posts`);
-  let notes = await data.json();
-  return notes;
-};
+//  "https://notes-qp.herokuapp.com";
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
-export const createPost = async (newNote) => {
-  const note = await fetch(`${url}/posts`, {
-    method: "POST",
-    body: JSON.stringify({
-      newNote,
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
-  const res = await note.json();
-  return res;
-};
 
-export const updatePost = async (updatedPost, id) => {
-  console.log(id);
-  const update = await fetch(`${url}/posts/${id}`, {
-    method: "PATCH",
-    body: JSON.stringify({
-      updatedPost,
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
-  const res = await update.json();
-  return res;
-};
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("profile")) {
+    req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem("profile")).token}`;
+  }
+  return req
+});
 
-export const deletePost = async (id) => {
-  const deleteNote = await fetch(`${url}/posts/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
+export const fetchPost = () => API.get('/posts');
+export const createPost = (newNote) => API.post('/posts', newNote);
+export const updatePost = (updatedPost, id) => API.patch(`/posts/${id}`, updatedPost);
+export const deletePost = (id) => API.delete(`/posts/${id}`);
 
-  const res = await deleteNote.json();
-  return res;
-};
-
-export const signIn = async (formData) => {
-  const user = await fetch(`${url}/user/signin`, {
-    method: "POST",
-    body: JSON.stringify({
-      formData,
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
-  const res = await user.json();
-  return res;
-};
-export const signUp = async (formData) => {
-  const user = await fetch(`${url}/user/signup`, {
-    method: "POST",
-    body: JSON.stringify({
-      formData,
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
-  const res = await user.json();
-  console.log(res)
-  return res;
-};
+export const signIn = (formData) => API.post('/user/signin', formData);
+export const signUp = (formData) => API.post('/user/signup', formData);

@@ -59,31 +59,33 @@ export const {
 
 export const fetchPostsAsync = () => (dispatch) => {
   (async () => {
-    const data = await api.fetchPost();
+    const { data } = await api.fetchPost();
     dispatch(fetchPosts(data));
   })();
 };
 export const createPostAsync = (newNote) => (dispatch) => {
   (async () => {
-    const data = await api.createPost(newNote);
+    console.log(newNote)
+    const { data } = await api.createPost(newNote);
+    console.log(data)
     dispatch(createPost(data));
   })();
 };
 export const updatePostAsync = (newNote, id) => (dispatch) => {
   (async () => {
-    const data = await api.updatePost(newNote, id);
+    const { data } = await api.updatePost(newNote, id);
     dispatch(updatePost(newNote));
   })();
 };
 export const deletePostAsync = (id) => (dispatch) => {
   (async () => {
-    const data = await api.deletePost(id);
+    const { data } = await api.deletePost(id);
     dispatch(deletePost(id));
   })();
 };
 export const setCompletedAsync = (id, note) => (dispatch) => {
   (async () => {
-    const data = await api.updatePost(note, id);
+    const { data } = await api.updatePost(note, id);
     dispatch(setCompleted({ id, note }));
   })();
 };

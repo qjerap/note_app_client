@@ -29,9 +29,12 @@ function App() {
   useEffect(() => {
     // const token = user?.token;
 
-    //JWT
+    // JWT
     const getUser = JSON.parse(localStorage.getItem("profile"));
-    getUser && dispatch(signIn(getUser));
+    if(getUser != null) {
+      console.log(getUser)
+      dispatch(signIn(getUser))};
+    
   }, []);
 
   return (
