@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "../../Slices/authSlice";
 import {
   Button,
   Modal,
@@ -11,26 +13,38 @@ import {
   Center,
 } from "@chakra-ui/react";
 import LoginComp from "../Login";
+import { LockIcon } from "@chakra-ui/icons";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const isLogIn = useSelector((state) => state.auth);
+
+  const handleClick = () => {
+    if (isLogIn.token) {
+      return dispatch(logOut());
+    } else {
+      onOpen();
+    }
+  };
 
   return (
-    <Center>
-      <Flex
-        flexDirection="column"
-        mt={5}
-        h="100px"
-        justifyContent="space-between"
-        alignItems="center"
+    <>
+      <Button
+        colorScheme={isLogIn.token ? "gray" : "blue"}
+        onClick={handleClick}
+        w="fit-content"
+        rightIcon={<LockIcon fontSize={["xs", "sm"]} marginBottom={1} />}
       >
-        <Heading margin={12} fontSize="3xl" opacity={0.75} fontWeight="400">
-          Log in to start using the note app
-        </Heading>
-        <Button onClick={onOpen} w="fit-content" p={3}>
-          <Text fontSize="sm">LOG IN</Text>
-        </Button>
-      </Flex>
+        <Text
+          ml={[0, 0, 2]}
+          fontSize="sm"
+          w={["0", "0", "100%"]}
+          overflow="hidden"
+        >
+          {isLogIn.token ? "Sign out" : "Sign In"}
+        </Text>
+      </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -38,7 +52,7 @@ const Login = () => {
           <LoginComp onClose={onClose} />
         </ModalContent>
       </Modal>
-    </Center>
+    </>
   );
 };
 

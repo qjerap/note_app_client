@@ -1,57 +1,49 @@
 import React, { useState } from "react";
-import { Heading, Grid, useToast } from "@chakra-ui/react";
+import { Heading, Grid, Box, useColorModeValue } from "@chakra-ui/react";
+import { LockIcon } from "@chakra-ui/icons";
+import GoogleLoginButton from "./googleLogin";
+import JWTLogin from "./JWTLogin";
 
 const Auth = (props) => {
-  const [signUp, setSignUp] = useState(false);
-  const toast = useToast();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    props.onClose();
-    toast({
-      title: "Welcome!",
-      description: "Let's plan our day",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
+  const [isSignUp, setIsSignUp] = useState(false);
+  const bg = useColorModeValue("blue.400", "blue.200");
 
   return (
-    <form action="POST" onSubmit={handleSubmit} autoComplete="off">
-      <Grid
-        gridTemplateColumns="1fr"
-        gridGap={2}
-        w="60%"
+    <Grid
+      gridTemplateColumns="1fr"
+      gridGap={5}
+      w="80%"
+      m="auto"
+      textAlign="center"
+      m="2rem auto"
+    >
+      <LockIcon
+        bg={"blue.400"}
+        color="White"
+        borderRadius="50%"
+        w="3rem"
+        h="3rem"
         m="auto"
-        textAlign="center"
-        m="auto"
-      >
-        <Heading size="lg">{signUp ? "Sign up" : "Log in"}</Heading>
+        p={2}
+      />
+      <Heading size="lg" opacity={0.75}>
+        {isSignUp ? "Sign up" : "Sign in"}
+      </Heading>
 
-        <input type="text" placeholder="username" name="username" />
-        {signUp && <input type="email" placeholder="email" name="email" />}
-        <input type="password" placeholder="password" name="password" />
-        {signUp && (
-          <input
-            type="password"
-            placeholder="confirm password"
-            name="confirmedPassword"
-          />
-        )}
-        <button type="submit">{signUp ? "Sign up" : "Login"}</button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            setSignUp(!signUp);
-          }}
-        >
-          {signUp
-            ? "already sign up? Login!"
-            : "Don't have an account yet? Signup!"}
-        </button>
-      </Grid>
-    </form>
+      <JWTLogin
+        onClose={props.onClose}
+        setIsSignUp={setIsSignUp}
+        isSignUp={isSignUp}
+      />
+
+      {/*
+        
+      <Box borderTop="2px" borderColor={bg}></Box>
+      <GoogleLoginButton onClose={props.onClose} /> 
+    
+    */ }
+      
+    </Grid>
   );
 };
 

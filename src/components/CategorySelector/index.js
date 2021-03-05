@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, Box } from "@chakra-ui/react";
+import { Button, Box, ButtonGroup } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilterCategory, setFilterSearch } from "../../Slices/postsSlice";
 
 const CategorySelector = () => {
   const notes = useSelector((state) => state.posts.notes);
+  const user = useSelector((state) => state.auth.token);
 
   const dispatch = useDispatch();
 
@@ -15,44 +16,40 @@ const CategorySelector = () => {
 
   return (
     <div>
-      <Box>
+      <ButtonGroup isAttached>
         <Button
-          disabled={notes.length > 0 ? false : true}
+          disabled={notes.length > 0 && user.length > 0 ? false : true}
           onClick={setFilter}
           value="all"
           fontSize={["sm", "md"]}
-          mr={1}
         >
           All
         </Button>
         <Button
-          disabled={notes.length > 0 ? false : true}
+          disabled={notes.length > 0 && user.length > 0 ? false : true}
           onClick={setFilter}
           value="home"
           fontSize={["sm", "md"]}
-          mr={1}
         >
           Home
         </Button>
         <Button
-          disabled={notes.length > 0 ? false : true}
+          disabled={notes.length > 0 && user.length > 0 ? false : true}
           onClick={setFilter}
           value="work"
           fontSize={["sm", "md"]}
-          mr={1}
         >
           Work
         </Button>
         <Button
-          disabled={notes.length > 0 ? false : true}
+          disabled={notes.length > 0 && user.length > 0 ? false : true}
           onClick={setFilter}
           value="personal"
           fontSize={["sm", "md"]}
-          mr={1}
         >
           Personal
         </Button>
-      </Box>
+      </ButtonGroup>
     </div>
   );
 };

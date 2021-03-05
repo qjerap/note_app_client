@@ -8,6 +8,7 @@ const Search = () => {
   const dispatch = useDispatch();
   const stateBar = useSelector((state) => state.posts.filter.search);
   const notes = useSelector((state) => state.posts.notes);
+  const user = useSelector((state) => state.auth.token);
 
   const handleChange = (e) => {
     dispatch(setFilterCategory("all"));
@@ -25,7 +26,7 @@ const Search = () => {
         transition="all 0.3s"
       />
       <Input
-        disabled={notes.length > 0 ? false : true}
+        disabled={notes.length > 0 && user.length > 0 ? false : true}
         pl={stateBar ? 5 : 12}
         pr={10}
         onInput={handleChange}

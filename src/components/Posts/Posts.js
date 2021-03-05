@@ -46,11 +46,11 @@ const Posts = () => {
           <Heading
             margin={12}
             textAlign="center"
-            fontSize="3xl"
-            opacity={0.75}
+            fontSize="2xl"
             fontWeight="400"
+            opacity={0.75}
           >
-            Let's add our first note!
+            <strong>Let's add our first note!</strong>
           </Heading>
           <Image src={emptySvg} m="auto" />
         </Grid>

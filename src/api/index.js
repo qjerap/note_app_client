@@ -47,3 +47,31 @@ export const deletePost = async (id) => {
   const res = await deleteNote.json();
   return res;
 };
+
+export const signIn = async (formData) => {
+  const user = await fetch(`${url}/user/signin`, {
+    method: "POST",
+    body: JSON.stringify({
+      formData,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
+  const res = await user.json();
+  return res;
+};
+export const signUp = async (formData) => {
+  const user = await fetch(`${url}/user/signup`, {
+    method: "POST",
+    body: JSON.stringify({
+      formData,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
+  const res = await user.json();
+  console.log(res)
+  return res;
+};
