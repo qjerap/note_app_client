@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signIn } from "./Slices/authSlice";
+import { logOut, signIn } from "./Slices/authSlice";
 import {
   Container,
   Flex,
-  useColorModeValue,
   ButtonGroup,
   Grid,
   Heading,
@@ -12,64 +11,71 @@ import {
   Box,
 } from "@chakra-ui/react";
 import loginSvg from "./assets/auth.svg";
-import Search from "./components/SearchBar";
-import CategorySelector from "./components/CategorySelector";
-import Posts from "./components/Posts/Posts";
+import Search from "./components/Filter/SearchBar";
+import CategorySelector from "./components/Filter/CategorySelector";
+import Notes from "./components/Posts/Notes";
 import ProgressBar from "./components/ProgressBar";
 import Toggle from "./components/ToggleTheme";
-import Add from "./components/Modal/add";
-import Auth from "./components/Modal/login";
+import Add from "./components/NotesForm/FormModal";
+import Auth from "./components/Login/LoginModal";
+import decode from "jwt-decode";
 
 function App() {
-  const bg = useColorModeValue("teal.100", "teal.900");
-  // const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  const user = useSelector((state) => state.auth.token);
+  const user = useSelector((state) => state.auth);
+  const notes = useSelector((state) => state.posts.notes);
   const dispatch = useDispatch();
 
+  // After app is loaded || notes is updated
   useEffect(() => {
-    // const token = user?.token;
-
-    // JWT
+    //CHECK IF User profile/token is saved in localstorage, if so, Sign In
     const getUser = JSON.parse(localStorage.getItem("profile"));
-    if(getUser != null) {
-      console.log(getUser)
-      dispatch(signIn(getUser))};
-    
-  }, []);
+    if (getUser != null) dispatch(signIn(getUser));
+
+    //CHECK IF Token is expired. IF it is, Sign Out
+    // const token = user?.token;
+    // if (token) {
+    //   const decodedToken = decode(token);
+    //   console.log(decodedToken.exp * 1000, new Date().getTime());
+    //   if (decodedToken.exp * 1000 < new Date().getTime()) logOut();
+    // }
+  }, [notes]);
 
   return (
-    <React.Fragment>
-      <Container maxW="824px" p={[2, 8]}>
-        <Search />
-        <Flex justifyContent="space-between" mt={[3, 6]} mb={[3, 6]}>
-          <CategorySelector />
-          <ButtonGroup isAttached>
-            <Add disabled={user ? false : true} />
-            <Auth />
-          </ButtonGroup>
-        </Flex>
-        <ProgressBar />
-        {user ? (
-          <Posts />
-        ) : (
-          <Grid>
-            <Heading
-              margin={12}
-              textAlign="center"
-              fontSize="2xl"
-              fontWeight="400"
-              opacity={0.75}
-            >
-              <strong>NoteWorld</strong> - Your digital notebook
-              <Box mt={3}>Sign in and start planing your day</Box>
-            </Heading>
+    <Container maxW="824px" p={[4, 8]}>
+      <Flex justifyContent="space-between" alignItems="center" mb={[3, 6]}>
+        <Heading size="sm" fontWeight="500" opacity={0.75}>
+          {user.profile?.name}
+        </Heading>
+        <ButtonGroup>
+          <Toggle />
+          <Auth />
+        </ButtonGroup>
+      </Flex>
+      <Search />
+      <Flex justifyContent="space-between" mt={[3, 6]} mb={[3, 6]}>
+        <CategorySelector />
+        <Add disabled={user.token ? false : true} />
+      </Flex>
+      <ProgressBar />
+      {user.token ? (
+        <Notes />
+      ) : (
+        <Grid>
+          <Heading
+            margin={12}
+            textAlign="center"
+            fontSize="2xl"
+            fontWeight="400"
+            opacity={0.75}
+          >
+            <strong>NoteWorld</strong> - Your digital notebook
+            <Box mt={3}>Sign in and start planing your day</Box>
+          </Heading>
 
-            <Image src={loginSvg} m="auto" w="50%" />
-          </Grid>
-        )}
-        <Toggle />
-      </Container>
-    </React.Fragment>
+          <Image src={loginSvg} m="auto" w="50%" />
+        </Grid>
+      )}
+    </Container>
   );
 }
 

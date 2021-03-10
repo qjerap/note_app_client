@@ -30,6 +30,9 @@ const ProgressBar = () => {
       </Text>
       <Progress
         value={total > 0 && user.length > 0 ? (completed / total) * 100 : 0}
+        shadow="md"
+        borderRadius="sm"
+        opacity={0.8}
       />
     </Box>
   );

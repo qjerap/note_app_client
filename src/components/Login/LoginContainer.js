@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Heading, Grid, Box, useColorModeValue } from "@chakra-ui/react";
+import { Heading, Grid } from "@chakra-ui/react";
 import { LockIcon } from "@chakra-ui/icons";
-import GoogleLoginButton from "./googleLogin";
 import JWTLogin from "./JWTLogin";
 
 const Auth = (props) => {
   const [isSignUp, setIsSignUp] = useState(false);
-  const bg = useColorModeValue("blue.400", "blue.200");
 
   return (
     <Grid
@@ -35,14 +33,6 @@ const Auth = (props) => {
         setIsSignUp={setIsSignUp}
         isSignUp={isSignUp}
       />
-
-      {/*
-        
-      <Box borderTop="2px" borderColor={bg}></Box>
-      <GoogleLoginButton onClose={props.onClose} /> 
-    
-    */ }
-      
     </Grid>
   );
 };

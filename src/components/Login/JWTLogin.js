@@ -38,9 +38,9 @@ const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
     e.preventDefault();
 
     if (isSignUp) {
-      dispatch(signUpAsync(formData))
+      dispatch(signUpAsync(formData));
     } else {
-      dispatch(signInAsync(formData))
+      dispatch(signInAsync(formData));
     }
     onClose();
     toast({

@@ -3,16 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../../Slices/authSlice";
 import {
   Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
   useDisclosure,
-  Heading,
   Text,
-  Flex,
-  Center,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
 } from "@chakra-ui/react";
-import LoginComp from "../Login";
+import LoginContainer from "./LoginContainer";
 import { LockIcon } from "@chakra-ui/icons";
 
 const Login = () => {
@@ -34,7 +32,13 @@ const Login = () => {
         colorScheme={isLogIn.token ? "gray" : "blue"}
         onClick={handleClick}
         w="fit-content"
-        rightIcon={<LockIcon fontSize={["xs", "sm"]} marginBottom={1} />}
+        rightIcon={
+          <LockIcon
+            fontSize={["xs", "sm"]}
+            marginBottom={1}
+            marginRight={[2, 2, 0]}
+          />
+        }
       >
         <Text
           ml={[0, 0, 2]}
@@ -42,16 +46,17 @@ const Login = () => {
           w={["0", "0", "100%"]}
           overflow="hidden"
         >
-          {isLogIn.token ? "Sign out" : "Sign In"}
+          {isLogIn.token ? "Log Out" : "Sign In"}
         </Text>
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent borderRadius="1%">
-          <LoginComp onClose={onClose} />
-        </ModalContent>
-      </Modal>
+      <Drawer isOpen={isOpen} onClose={onClose} size="md">
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <LoginContainer onClose={onClose} />
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };

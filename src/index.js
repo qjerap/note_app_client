@@ -9,12 +9,31 @@ const config = {
   initialColorMode: "light",
   useSystemColorMode: false,
 };
-const theme = extendTheme({ config });
+const theme = extendTheme({
+  config,
+
+  components: {
+    Button: {
+      baseStyle: {
+        _focus: {
+          boxShadow: "none",
+        },
+      },
+    },
+    Input: {
+      baseStyle: {
+        _focus: {
+          boxShadow: "none",
+        },
+      },
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <App />
       </ChakraProvider>

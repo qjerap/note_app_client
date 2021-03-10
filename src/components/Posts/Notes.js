@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Post from "./Post/Post";
+import Post from "./Note/Note";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPostsAsync } from "../../Slices/postsSlice";
 import { Grid, Image, Center, Text, Heading } from "@chakra-ui/react";
@@ -10,12 +10,11 @@ const Posts = () => {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.posts.notes);
   const filter = useSelector((state) => state.posts.filter);
-
   const [filteredNotes, setFilteredNotes] = useState([]);
 
   useEffect(() => {
     dispatch(fetchPostsAsync());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     //IF Search Bar is used, Display by text search
@@ -29,8 +28,9 @@ const Posts = () => {
       );
       // ELSE, display by categories
     } else {
-      if (filter.category === "all") setFilteredNotes(notes);
-      else {
+      if (filter.category === "all") {
+        setFilteredNotes(notes);
+      } else {
         setFilteredNotes(
           notes.filter((note) => note.category == filter.category)
         );
@@ -40,7 +40,7 @@ const Posts = () => {
 
   return (
     <Center>
-      {/* IF there is no notes IN A CATEGORY*/}
+      {/* IF there is no notes to display*/}
       {notes.length <= 0 && (
         <Grid placeContent="center">
           <Heading
@@ -50,7 +50,8 @@ const Posts = () => {
             fontWeight="400"
             opacity={0.75}
           >
-            <strong>Let's add our first note!</strong>
+            Let's add our
+            <strong> first note</strong>!
           </Heading>
           <Image src={emptySvg} m="auto" />
         </Grid>
@@ -59,24 +60,33 @@ const Posts = () => {
         (filteredNotes.length ? (
           <Grid
             templateColumns={["1fr", "1fr", "repeat(2, 1fr)"]}
-            gap={[3, 6]}
+            gap={[3, 4]}
             w="100%"
           >
-            {filteredNotes.map((note) => {
-              return (
-                <Post
-                  key={note._id}
-                  completed={note.completed}
-                  creator={note.creator}
-                  date={note.createdAt}
-                  title={note.title}
-                  description={note.description}
-                  id={note._id}
-                />
-              );
-            })}
+            {filteredNotes
+              //
+              .slice()
+              // SORT notes by date
+              // .sort((a, b) => {
+              //   return new Date(a.createdAt) - new Date(b.createdAt);
+              // })
+              .map((note) => {
+                return (
+                  <Post
+                    key={note._id}
+                    completed={note.completed}
+                    creator={note.creator}
+                    date={note.createdAt}
+                    title={note.title}
+                    description={note.description}
+                    id={note._id}
+                    category={note.category}
+                  />
+                );
+              })}
           </Grid>
         ) : filter.search ? (
+          /* IF there is no notes MATCHING with the search bar input*/
           <Grid placeContent="center">
             <Heading
               margin={12}
@@ -86,11 +96,15 @@ const Posts = () => {
               opacity={0.75}
             >
               no notes match with «{" "}
-              <strong>{filter.search.toUpperCase()}</strong> »
+              <Text display="inline" color={"green.300"} fontWeight="500">
+                {filter.search.toUpperCase()}
+              </Text>{" "}
+              »
             </Heading>
             <Image src={searchSvg} m="auto" />
           </Grid>
         ) : (
+          /* IF there is no notes IN A SPECIFIC CATEGORY*/
           <Grid placeContent="center">
             <Heading
               margin={12}
@@ -100,7 +114,18 @@ const Posts = () => {
               opacity={0.75}
             >
               There is no note in the{" "}
-              <strong>{filter.category.toUpperCase()}</strong> category yet...
+              <Text
+                fontWeight="500"
+                color={
+                  (filter.category === "home" && "teal.300") ||
+                  (filter.category === "work" && "purple.300") ||
+                  (filter.category === "personal" && "pink.300")
+                }
+                display="inline"
+              >
+                {filter.category.toUpperCase()}
+              </Text>{" "}
+              category yet...
             </Heading>
             <Image src={searchSvg} m="auto" />
           </Grid>

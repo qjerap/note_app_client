@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Box } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterSearch, setFilterCategory } from "../../Slices/postsSlice";
+import { setFilterSearch, setFilterCategory } from "../../../Slices/postsSlice";
 import { SearchIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
 const Search = () => {
@@ -32,10 +32,11 @@ const Search = () => {
         onInput={handleChange}
         value={stateBar}
         placeholder="Search notes..."
+        borderRadius="sm"
+        _focus={{boxShadow:"none"}}
       />
-      <SmallCloseIcon
+      <Box
         zIndex="9"
-        fontSize="xl"
         cursor="pointer"
         borderRadius="50%"
         opacity={stateBar ? 0.5 : 0}
@@ -48,7 +49,9 @@ const Search = () => {
         onClick={() => {
           dispatch(setFilterSearch(""));
         }}
-      />
+      >
+        <SmallCloseIcon fontSize="2xl" />
+      </Box>
     </Box>
   );
 };

@@ -3,17 +3,19 @@ import {
   Button,
   Box,
   Flex,
-  Modal,
-  ModalOverlay,
-  ModalContent,
   useDisclosure,
   Checkbox,
   Center,
   Text,
+  useColorModeValue,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
-import Form from "../../Form/Form";
+import Form from "../../NotesForm/Form";
 import { useDispatch } from "react-redux";
 import {
   deletePostAsync,
@@ -21,8 +23,17 @@ import {
   setCurrentId,
 } from "../../../Slices/postsSlice";
 
-const Post = ({ title, description, id, date, creator, completed }) => {
+const Post = ({
+  title,
+  description,
+  id,
+  date,
+  creator,
+  completed,
+  category,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const borderColorCompleted = useColorModeValue("gray.100", "gray.700");
 
   const dispatch = useDispatch();
 
@@ -51,11 +62,19 @@ const Post = ({ title, description, id, date, creator, completed }) => {
   return (
     <Box
       p={3}
+      borderColor={
+        (completed === true && borderColorCompleted) ||
+        (category === "home" && "teal.100") ||
+        (category === "work" && "purple.100") ||
+        (category === "personal" && "pink.100")
+      }
       // h="13rem"
       w="100%"
       borderWidth="1px"
-      borderRadius="lg"
+      borderRadius="sm"
+      shadow={completed ? "none" : "md"}
       overflow="hidden"
+      transition="all 0.3s"
     >
       <Flex justifyContent="space-between">
         <Checkbox
@@ -70,6 +89,12 @@ const Post = ({ title, description, id, date, creator, completed }) => {
           isTruncated
           textDecoration={completed && "line-through"}
           opacity={completed && 0.35}
+          color={
+            (completed === true && "gray") ||
+            (category === "home" && "teal.300") ||
+            (category === "work" && "purple.300") ||
+            (category === "personal" && "pink.300")
+          }
         >
           {title}
         </Center>
@@ -105,20 +130,20 @@ const Post = ({ title, description, id, date, creator, completed }) => {
       </Box>
       <Box opacity={0.35}>{time}</Box>
 
-      <Modal
+      <Drawer
         isCentered
-        size={["3xl"]}
+        size={["md"]}
         isOpen={isOpen}
         onClose={() => {
           onClose();
           dispatch(setCurrentId(""));
         }}
       >
-        <ModalOverlay />
-        <ModalContent borderRadius="1%">
-          <Form onClose={onClose}/>
-        </ModalContent>
-      </Modal>
+        <DrawerOverlay />
+        <DrawerContent>
+          <Form onClose={onClose} />
+        </DrawerContent>
+      </Drawer>
     </Box>
   );
 };

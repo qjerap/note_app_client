@@ -71,7 +71,6 @@ const Form = (props) => {
     });
   };
 
-
   return (
     <Box>
       <Heading
@@ -87,7 +86,11 @@ const Form = (props) => {
       </Heading>
 
       <form action="/" method="/POST" onSubmit={handleSubmit}>
-        <Grid gridTemplateColumns="repeat(2, 1fr)" p={(1, 5)} gridGap={5}>
+        <Grid
+          gridTemplateColumns={["1fr"]}
+          p={(1, 5)}
+          gridGap={5}
+        >
           {/*       <Input
         type="text"
         value={noteData.creator}
@@ -117,7 +120,7 @@ const Form = (props) => {
           <Textarea
             resize="none"
             rows={5}
-            maxLength={125}
+            maxLength={175}
             value={noteData.description}
             name="description"
             placeholder="Description"
