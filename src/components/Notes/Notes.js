@@ -6,7 +6,7 @@ import { Grid, Image, Center, Text, Heading } from "@chakra-ui/react";
 import searchSvg from "../../assets/search-image.svg";
 import emptySvg from "../../assets/add-note.svg";
 
-const Posts = () => {
+const Notes = () => {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.notes.notes);
   const filter = useSelector((state) => state.notes.filter);
@@ -134,4 +134,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default Notes;

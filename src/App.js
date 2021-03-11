@@ -15,48 +15,34 @@ import Search from "./components/Filter/SearchBar";
 import CategorySelector from "./components/Filter/CategorySelector";
 import Notes from "./components/Notes/Notes";
 import ProgressBar from "./components/ProgressBar";
-import Toggle from "./components/ToggleTheme";
-import Add from "./components/NotesForm/FormModal";
-import Auth from "./components/Login/LoginModal";
-import decode from "jwt-decode";
+import ToggleThemeBtn from "./components/ToggleTheme";
+import AddNoteBtn from "./components/NotesForm/FormModal";
+import AuthBtn from "./components/Login/LoginModal";
 
 function App() {
   const user = useSelector((state) => state.auth);
-  const notes = useSelector((state) => state.notes.notes);
-  const dispatch = useDispatch();
 
-  // After app is loaded || notes is updated
-  useEffect(() => {
-    //CHECK IF User profile/token is saved in localstorage, if so, Sign In
-    const getUser = JSON.parse(localStorage.getItem("profile"));
-    if (getUser != null) dispatch(signIn(getUser));
-
-    //CHECK IF Token is expired. IF it is, Sign Out
-    // const token = user?.token;
-    // if (token) {
-    //   const decodedToken = decode(token);
-    //   console.log(decodedToken.exp * 1000, new Date().getTime());
-    //   if (decodedToken.exp * 1000 < new Date().getTime()) logOut();
-    // }
-  }, [notes]);
 
   return (
     <Container maxW="824px" p={[4, 8]}>
+
       <Flex justifyContent="space-between" alignItems="center" mb={[3, 6]}>
-        <Heading size="sm" fontWeight="500" opacity={0.75}>
-          {user.profile?.name}
-        </Heading>
+        <Heading size="sm" fontWeight="500" opacity={0.75}>{user.profile.name}</Heading>
         <ButtonGroup>
-          <Toggle />
-          <Auth />
+          <ToggleThemeBtn />
+          <AuthBtn />
         </ButtonGroup>
       </Flex>
+
       <Search />
+
       <Flex justifyContent="space-between" mt={[3, 6]} mb={[3, 6]}>
         <CategorySelector />
-        <Add disabled={user.token ? false : true} />
+        <AddNoteBtn disabled={user.token ? false : true} />
       </Flex>
+
       <ProgressBar />
+      
       {user.token ? (
         <Notes />
       ) : (

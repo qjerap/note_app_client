@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //  "https://notes-qp.herokuapp.com";
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://notes-qp.herokuapp.com/" });
 
 
 API.interceptors.request.use((req) => {

@@ -1,23 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   FormControl,
   FormLabel,
   Input,
   Button,
-  useColorModeValue,
   useToast,
   Grid,
 } from "@chakra-ui/react";
 import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { signInAsync, signUpAsync } from "../../Slices/authSlice";
+import {  signInAsync, signUpAsync } from "../../Slices/authSlice";
+
 
 const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
-
   const dispatch = useDispatch();
   const toast = useToast();
+
+
 
   const [formData, setFormData] = useState({
     firstName: "",

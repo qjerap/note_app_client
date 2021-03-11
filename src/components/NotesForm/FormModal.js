@@ -15,7 +15,6 @@ import Form from "./Form";
 
 const Add = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const isLogIn = useSelector((state) => state.auth);
 
   return (
     <>

@@ -67,7 +67,6 @@ export const fetchNotesAsync = () => (dispatch) => {
 export const createNoteAsync = (newNote) => (dispatch) => {
   (async () => {
     const { data } = await api.createNote(newNote);
-    console.log(data);
     dispatch(createNote(data));
   })();
 };

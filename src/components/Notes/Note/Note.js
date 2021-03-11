@@ -23,7 +23,7 @@ import {
   setCurrentId,
 } from "../../../Slices/notesSlice";
 
-const Post = ({
+const Note = ({
   title,
   description,
   id,
@@ -150,4 +150,4 @@ const Post = ({
   );
 };
 
-export default Post;
+export default Note;
