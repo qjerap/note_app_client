@@ -11,16 +11,8 @@ const config = {
 };
 const theme = extendTheme({
   config,
-
   components: {
     Button: {
-      baseStyle: {
-        _focus: {
-          boxShadow: "none",
-        },
-      },
-    },
-    Input: {
       baseStyle: {
         _focus: {
           boxShadow: "none",

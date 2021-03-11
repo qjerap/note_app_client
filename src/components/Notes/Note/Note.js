@@ -18,10 +18,10 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import Form from "../../NotesForm/Form";
 import { useDispatch } from "react-redux";
 import {
-  deletePostAsync,
+  deleteNoteAsync,
   setCompletedAsync,
   setCurrentId,
-} from "../../../Slices/postsSlice";
+} from "../../../Slices/notesSlice";
 
 const Post = ({
   title,
@@ -38,7 +38,7 @@ const Post = ({
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deletePostAsync(id));
+    dispatch(deleteNoteAsync(id));
   };
   const handleCheck = (e) => {
     dispatch(
@@ -57,6 +57,8 @@ const Post = ({
     month: "long",
     day: "numeric",
     year: "numeric",
+    hour: "numeric",
+    minute: "numeric"
   });
 
   return (

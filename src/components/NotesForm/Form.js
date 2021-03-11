@@ -13,13 +13,13 @@ import {
   Flex,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import { createPostAsync, updatePostAsync } from "../../Slices/postsSlice";
+import { createNoteAsync, updateNoteAsync } from "../../Slices/notesSlice";
 
 const Form = (props) => {
   // Get Id of the note to be edited
-  const edit = useSelector((state) => state.posts.edit);
+  const edit = useSelector((state) => state.notes.edit);
   // get notes from the state
-  const notes = useSelector((state) => state.posts.notes);
+  const notes = useSelector((state) => state.notes.notes);
   // filter the right note
   const noteToUpdate = notes.filter((note) => note._id === edit.currentId);
 
@@ -33,7 +33,6 @@ const Form = (props) => {
 
   const dispatch = useDispatch();
   const [noteData, setNoteData] = useState({
-    creator: "",
     title: "",
     description: "",
     category: "",
@@ -50,12 +49,11 @@ const Form = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (edit.currentId) {
-      dispatch(updatePostAsync(noteData, edit.currentId));
+      dispatch(updateNoteAsync(noteData, edit.currentId));
     } else {
-      dispatch(createPostAsync(noteData));
+      dispatch(createNoteAsync(noteData));
     }
     setNoteData({
-      creator: "",
       title: "",
       description: "",
       category: "",

@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import postsReducer from "../Slices/postsSlice";
+import notesReducer from "../Slices/notesSlice";
 import authReducer from "../Slices/authSlice";
 
 export default configureStore({
   reducer: {
-    posts: postsReducer,
+    notes: notesReducer,
     auth: authReducer,
   },
 });

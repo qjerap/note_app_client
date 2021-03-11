@@ -1,13 +1,13 @@
 import React from "react";
 import { Input, Box } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterSearch, setFilterCategory } from "../../../Slices/postsSlice";
+import { setFilterSearch, setFilterCategory } from "../../../Slices/notesSlice";
 import { SearchIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
 const Search = () => {
   const dispatch = useDispatch();
-  const stateBar = useSelector((state) => state.posts.filter.search);
-  const notes = useSelector((state) => state.posts.notes);
+  const stateBar = useSelector((state) => state.notes.filter.search);
+  const notes = useSelector((state) => state.notes.notes);
   const user = useSelector((state) => state.auth.token);
 
   const handleChange = (e) => {

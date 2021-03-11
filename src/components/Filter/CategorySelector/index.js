@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, useColorModeValue } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterCategory, setFilterSearch } from "../../../Slices/postsSlice";
+import { setFilterCategory, setFilterSearch } from "../../../Slices/notesSlice";
 
 const CategorySelector = () => {
-  const notes = useSelector((state) => state.posts.notes);
+  const notes = useSelector((state) => state.notes.notes);
   const user = useSelector((state) => state.auth.token);
-  const search = useSelector((state) => state.posts.filter.search);
+  const search = useSelector((state) => state.notes.filter.search);
 
   const dispatch = useDispatch();
 
   const [activeBtn, setActiveBtn] = useState("all");
 
   //if Search bar is used => set Category to all
-  //on SignOut => set Category to all
+  //on SignOut => remove any active Btn
   useEffect(() => {
     if (search) {
       setActiveBtn("all");
     }
     if (!user) {
-      setActiveBtn("all");
+      setActiveBtn("");
       dispatch(setFilterCategory("all"));
+    } else {
+      setActiveBtn("all");
     }
   }, [search, user]);
 

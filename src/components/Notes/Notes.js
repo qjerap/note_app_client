@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Note/Note";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPostsAsync } from "../../Slices/postsSlice";
+import { fetchNotesAsync } from "../../Slices/notesSlice";
 import { Grid, Image, Center, Text, Heading } from "@chakra-ui/react";
 import searchSvg from "../../assets/search-image.svg";
 import emptySvg from "../../assets/add-note.svg";
 
 const Posts = () => {
   const dispatch = useDispatch();
-  const notes = useSelector((state) => state.posts.notes);
-  const filter = useSelector((state) => state.posts.filter);
+  const notes = useSelector((state) => state.notes.notes);
+  const filter = useSelector((state) => state.notes.filter);
   const [filteredNotes, setFilteredNotes] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchPostsAsync());
+    dispatch(fetchNotesAsync());
   }, []);
 
   useEffect(() => {
@@ -67,9 +67,9 @@ const Posts = () => {
               //
               .slice()
               // SORT notes by date
-              // .sort((a, b) => {
-              //   return new Date(a.createdAt) - new Date(b.createdAt);
-              // })
+              .sort((a, b) => {
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              })
               .map((note) => {
                 return (
                   <Post

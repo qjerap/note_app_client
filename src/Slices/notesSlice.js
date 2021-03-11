@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import * as api from "../api";
 
-export const postsSlice = createSlice({
-  name: "posts",
+export const notesSlice = createSlice({
+  name: "notes",
   initialState: {
     edit: {
       currentId: "",
@@ -12,16 +12,16 @@ export const postsSlice = createSlice({
     notes: [],
   },
   reducers: {
-    fetchPosts: (state, action) => {
+    fetchNotes: (state, action) => {
       state.notes = action.payload;
     },
-    createPost: (state, action) => {
+    createNote: (state, action) => {
       state.notes.push(action.payload);
     },
-    deletePost: (state, action) => {
+    deleteNote: (state, action) => {
       state.notes = state.notes.filter((note) => note._id != action.payload);
     },
-    updatePost: (state, action) => {
+    updateNote: (state, action) => {
       state.notes = state.notes.map((note) =>
         note._id === action.payload._id ? (note = action.payload) : note
       );
@@ -48,48 +48,46 @@ export const postsSlice = createSlice({
 });
 
 export const {
-  fetchPosts,
-  createPost,
-  deletePost,
-  updatePost,
+  fetchNotes,
+  createNote,
+  deleteNote,
+  updateNote,
   setCurrentId,
   setFilterCategory,
   setFilterSearch,
   setCompleted,
-} = postsSlice.actions;
+} = notesSlice.actions;
 
-export const fetchPostsAsync = () => (dispatch) => {
+export const fetchNotesAsync = () => (dispatch) => {
   (async () => {
-    const { data } = await api.fetchPost();
-    dispatch(fetchPosts(data));
+    const { data } = await api.fetchNote();
+    dispatch(fetchNotes(data));
   })();
 };
-export const createPostAsync = (newNote) => (dispatch) => {
+export const createNoteAsync = (newNote) => (dispatch) => {
   (async () => {
-    const { data } = await api.createPost(newNote);
+    const { data } = await api.createNote(newNote);
     console.log(data);
-    dispatch(createPost(data));
+    dispatch(createNote(data));
   })();
 };
-export const updatePostAsync = (newNote, id) => (dispatch) => {
+export const updateNoteAsync = (newNote, id) => (dispatch) => {
   (async () => {
-    const { data } = await api.updatePost(newNote, id);
-    dispatch(updatePost(data));
+    const { data } = await api.updateNote(newNote, id);
+    dispatch(updateNote(data));
   })();
 };
-export const deletePostAsync = (id) => (dispatch) => {
+export const deleteNoteAsync = (id) => (dispatch) => {
   (async () => {
-    const { data } = await api.deletePost(id);
-    dispatch(deletePost(data));
+    const { data } = await api.deleteNote(id);
+    dispatch(deleteNote(data));
   })();
 };
 export const setCompletedAsync = (id, note) => (dispatch) => {
   (async () => {
-    const { data } = await api.updatePost(note, id);
+    const { data } = await api.updateNote(note, id);
     dispatch(setCompleted(data));
   })();
 };
 
-export const selectPosts = (state) => state.posts;
-
-export default postsSlice.reducer;
+export default notesSlice.reducer;

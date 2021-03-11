@@ -3,12 +3,12 @@ import { Progress, Box, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
 const ProgressBar = () => {
-  const total = useSelector((state) => state.posts.notes.length);
+  const total = useSelector((state) => state.notes.notes.length);
   const user = useSelector((state) => state.auth.token);
 
   const completed = useSelector(
     (state) =>
-      state.posts.notes.filter((note) => {
+      state.notes.notes.filter((note) => {
         return note.completed === true;
       }).length
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logOut, signIn } from "./Slices/authSlice";
 import {
@@ -13,7 +13,7 @@ import {
 import loginSvg from "./assets/auth.svg";
 import Search from "./components/Filter/SearchBar";
 import CategorySelector from "./components/Filter/CategorySelector";
-import Notes from "./components/Posts/Notes";
+import Notes from "./components/Notes/Notes";
 import ProgressBar from "./components/ProgressBar";
 import Toggle from "./components/ToggleTheme";
 import Add from "./components/NotesForm/FormModal";
@@ -22,7 +22,7 @@ import decode from "jwt-decode";
 
 function App() {
   const user = useSelector((state) => state.auth);
-  const notes = useSelector((state) => state.posts.notes);
+  const notes = useSelector((state) => state.notes.notes);
   const dispatch = useDispatch();
 
   // After app is loaded || notes is updated
