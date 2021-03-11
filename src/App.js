@@ -22,12 +22,12 @@ import AuthBtn from "./components/Login/LoginModal";
 function App() {
   const user = useSelector((state) => state.auth);
 
-
   return (
     <Container maxW="824px" p={[4, 8]}>
-
       <Flex justifyContent="space-between" alignItems="center" mb={[3, 6]}>
-        <Heading size="sm" fontWeight="500" opacity={0.75}>{user.profile.name}</Heading>
+        <Heading size="sm" fontWeight="500" opacity={0.75}>
+          {user.profile.name}
+        </Heading>
         <ButtonGroup>
           <ToggleThemeBtn />
           <AuthBtn />
@@ -42,23 +42,26 @@ function App() {
       </Flex>
 
       <ProgressBar />
-      
+
       {user.token ? (
         <Notes />
       ) : (
         <Grid>
           <Heading
+            height="100px"
             margin={12}
             textAlign="center"
-            fontSize="2xl"
+            fontSize={["xl", "2xl"]}
             fontWeight="400"
             opacity={0.75}
           >
-            <strong>NoteWorld</strong> - Your digital notebook
-            <Box mt={3}>Sign in and start planing your day</Box>
+            <strong>NoteWorld</strong> - digital notebook
+            <Box mt={3} fontSize={["md", "2xl"]}>
+              Sign in and start planing your day
+            </Box>
           </Heading>
 
-          <Image src={loginSvg} m="auto" w="50%" />
+          <Image src={loginSvg} m="auto" w={["100%","60%"]} />
         </Grid>
       )}
     </Container>

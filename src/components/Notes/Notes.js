@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchNotesAsync } from "../../Slices/notesSlice";
 import { Grid, Image, Center, Text, Heading } from "@chakra-ui/react";
 import searchSvg from "../../assets/search-image.svg";
-import emptySvg from "../../assets/add-note.svg";
+import emptySvg from "../../assets/add-note2.svg";
 
 const Notes = () => {
   const dispatch = useDispatch();
@@ -44,16 +44,17 @@ const Notes = () => {
       {notes.length <= 0 && (
         <Grid placeContent="center">
           <Heading
+          height="100px"
             margin={12}
             textAlign="center"
-            fontSize="2xl"
+            fontSize={["xl","2xl"]}
             fontWeight="400"
             opacity={0.75}
           >
             Let's add our
             <strong> first note</strong>!
           </Heading>
-          <Image src={emptySvg} m="auto" />
+          <Image src={emptySvg} m="auto" w={["100%","60%"]}/>
         </Grid>
       )}
       {notes.length > 0 &&
@@ -89,9 +90,10 @@ const Notes = () => {
           /* IF there is no notes MATCHING with the search bar input*/
           <Grid placeContent="center">
             <Heading
+            height="100px"
               margin={12}
               textAlign="center"
-              fontSize="2xl"
+              fontSize={["md","2xl"]}
               fontWeight="400"
               opacity={0.75}
             >
@@ -101,15 +103,17 @@ const Notes = () => {
               </Text>{" "}
               »
             </Heading>
-            <Image src={searchSvg} m="auto" />
+            <Image src={searchSvg} m="auto"/>
           </Grid>
         ) : (
           /* IF there is no notes IN A SPECIFIC CATEGORY*/
           <Grid placeContent="center">
             <Heading
+            height="100px"
+
               margin={12}
               textAlign="center"
-              fontSize="2xl"
+              fontSize={["md","2xl"]}
               fontWeight="400"
               opacity={0.75}
             >
