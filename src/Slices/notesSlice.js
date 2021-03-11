@@ -28,10 +28,11 @@ export const notesSlice = createSlice({
       state.edit.currentId = "";
     },
     setCompleted: (state, action) => {
+      console.log(action)
       state.notes.map(
         (note) =>
-          note._id === action.payload._id &&
-          (note.completed = action.payload.completed)
+          note._id === action.payload.id &&
+          (note.completed = action.payload.note.completed)
       );
     },
     setCurrentId: (state, action) => {
@@ -84,8 +85,9 @@ export const deleteNoteAsync = (id) => (dispatch) => {
 };
 export const setCompletedAsync = (id, note) => (dispatch) => {
   (async () => {
+    console.log(id, note)
     const { data } = await api.updateNote(note, id);
-    dispatch(setCompleted(data));
+    dispatch(setCompleted({id, note}));
   })();
 };
 
