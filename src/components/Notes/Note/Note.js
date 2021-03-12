@@ -12,6 +12,7 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  useToast
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
@@ -33,12 +34,21 @@ const Note = ({
   category,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
   const borderColorCompleted = useColorModeValue("gray.100", "gray.700");
 
   const dispatch = useDispatch();
 
   const handleDelete = () => {
     dispatch(deleteNoteAsync(id));
+    toast({
+      title: `Note deleted`,
+      description: `${title}`,
+      status: "warning",
+      // variant: "subtle",
+      duration: 2000,
+      isClosable: true,
+    });
   };
   const handleCheck = (e) => {
     dispatch(

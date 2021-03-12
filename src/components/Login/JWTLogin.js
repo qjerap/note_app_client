@@ -10,15 +10,13 @@ import {
 } from "@chakra-ui/react";
 import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import {  signInAsync, signUpAsync } from "../../Slices/authSlice";
-
+import { signInAsync, signUpAsync, authError } from "../../Slices/authSlice";
 
 const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth);
   const toast = useToast();
-
-
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -35,7 +33,7 @@ const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (isSignUp) {
@@ -43,19 +41,35 @@ const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
     } else {
       dispatch(signInAsync(formData));
     }
-    onClose();
-    toast({
-      title: "Welcome!",
-      description: "Let's plan our day",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
   };
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  useEffect(() => {
+    if (user.profile._id) {
+      onClose();
+      toast({
+        title: `Hello, ${user.profile.name}`,
+        description: "Let's plan our day",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+
+    if (user.error) {
+      toast({
+        title: "oops...",
+        description: user.error,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        onCloseComplete: (() => {dispatch(authError(""))})
+      });
+    }
+  }, [user.profile._id, user.error]);
 
   return (
     <form action="POST" onSubmit={handleSubmit} autoComplete="on">

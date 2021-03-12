@@ -9,6 +9,8 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  toast,
+  useToast
 } from "@chakra-ui/react";
 import LoginContainer from "./LoginContainer";
 import { LockIcon } from "@chakra-ui/icons";
@@ -16,6 +18,7 @@ import decode from "jwt-decode";
 
 
 const Login = () => {
+  const toast = useToast();
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isLogIn = useSelector((state) => state.auth);
@@ -40,7 +43,14 @@ const Login = () => {
 
   const handleClick = () => {
     if (isLogIn.token) {
-      return dispatch(logOut());
+       dispatch(logOut());
+       toast({
+        title: "You're leaving?",
+        description: "see you soon",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
     } else {
       onOpen();
     }

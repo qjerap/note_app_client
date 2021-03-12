@@ -6,6 +6,7 @@ export const authSlice = createSlice({
   initialState: {
     profile: {},
     token: "",
+    error: "",
   },
   reducers: {
     signIn: (state, action) => {
@@ -30,20 +31,22 @@ export const authSlice = createSlice({
       state.profile = {};
       state.token = "";
     },
+
+    authError: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
-export const { signIn, signUp, logOut } = authSlice.actions;
+export const { signIn, signUp, logOut, authError } = authSlice.actions;
 
 export const signInAsync = (formData) => (dispatch) => {
   (async () => {
-    console.log(formData)
     try {
       const { data } = await api.signIn(formData);
       dispatch(signIn(data));
-      console.log(data);
     } catch (error) {
-      console.log(error);
+      dispatch(authError(error.response.data.message));
     }
   })();
 };
@@ -53,7 +56,7 @@ export const signUpAsync = (formData) => (dispatch) => {
       const { data } = await api.signUp(formData);
       dispatch(signIn(data));
     } catch (error) {
-      console.log(error);
+      dispatch(authError(error.response.data.message));
     }
   })();
 };

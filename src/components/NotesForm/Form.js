@@ -50,8 +50,22 @@ const Form = (props) => {
     e.preventDefault();
     if (edit.currentId) {
       dispatch(updateNoteAsync(noteData, edit.currentId));
+      toast({
+        title: `Note edited`,
+        description: `${noteData.title}`,
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
     } else {
       dispatch(createNoteAsync(noteData));
+      toast({
+        title: `Note added`,
+        description: `${noteData.title}`,
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
     }
     setNoteData({
       title: "",
@@ -60,13 +74,6 @@ const Form = (props) => {
       completed: false,
     });
     props.onClose();
-    toast({
-      title: "Note added.",
-      description: "Note has been sucesfully added",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
   };
 
   return (
@@ -84,11 +91,7 @@ const Form = (props) => {
       </Heading>
 
       <form action="/" method="/POST" onSubmit={handleSubmit}>
-        <Grid
-          gridTemplateColumns={["1fr"]}
-          p={(1, 5)}
-          gridGap={5}
-        >
+        <Grid gridTemplateColumns={["1fr"]} p={(1, 5)} gridGap={5}>
           {/*       <Input
         type="text"
         value={noteData.creator}
