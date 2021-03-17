@@ -2,7 +2,15 @@ import React, { useEffect, useState, Suspense } from "react";
 import Post from "./Note/Note";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchNotesAsync } from "../../Slices/notesSlice";
-import { Grid, Image, Center, Text, Heading } from "@chakra-ui/react";
+import {
+  Grid,
+  Image,
+  Center,
+  Text,
+  Heading,
+  Fade,
+  SlideFade,
+} from "@chakra-ui/react";
 import searchSvg from "../../assets/search-image.svg";
 import emptySvg from "../../assets/add-note2.svg";
 
@@ -47,6 +55,7 @@ const Notes = () => {
     <Center>
       {/* IF there is no notes to display*/}
       {notes.length <= 0 && (
+        <SlideFade offsetY="10px" in={true}>
         <Grid placeContent="center">
           <Heading
             height="100px"
@@ -61,6 +70,7 @@ const Notes = () => {
           </Heading>
           <Image src={emptySvg} m="auto" w={["100%", "60%"]} />
         </Grid>
+        </SlideFade>
       )}
       {notes.length > 0 &&
         (filteredNotes.length ? (
@@ -93,50 +103,54 @@ const Notes = () => {
           </Grid>
         ) : filter.search ? (
           /* IF there is no notes MATCHING with the search bar input*/
-          <Grid placeContent="center">
-            <Heading
-              height="100px"
-              margin={12}
-              textAlign="center"
-              fontSize={["md", "2xl"]}
-              fontWeight="400"
-              opacity={0.75}
-            >
-              no notes match with «{" "}
-              <Text display="inline" color={"green.300"} fontWeight="500">
-                {filter.search.toUpperCase()}
-              </Text>{" "}
-              »
-            </Heading>
-            <Image src={searchSvg} m="auto" />
-          </Grid>
+          <SlideFade offsetY="10px" in={true}>
+            <Grid placeContent="center">
+              <Heading
+                height="100px"
+                margin={12}
+                textAlign="center"
+                fontSize={["md", "2xl"]}
+                fontWeight="400"
+                opacity={0.75}
+              >
+                no notes match with «{" "}
+                <Text display="inline" color={"green.300"} fontWeight="500">
+                  {filter.search.toUpperCase()}
+                </Text>{" "}
+                »
+              </Heading>
+              <Image src={searchSvg} m="auto" />
+            </Grid>
+          </SlideFade>
         ) : (
           /* IF there is no notes IN A SPECIFIC CATEGORY*/
-          <Grid placeContent="center">
-            <Heading
-              height="100px"
-              margin={12}
-              textAlign="center"
-              fontSize={["md", "2xl"]}
-              fontWeight="400"
-              opacity={0.75}
-            >
-              There is no note in the{" "}
-              <Text
-                fontWeight="500"
-                color={
-                  (filter.category === "home" && "teal.300") ||
-                  (filter.category === "work" && "purple.300") ||
-                  (filter.category === "personal" && "pink.300")
-                }
-                display="inline"
+          <SlideFade offsetY="10px" in={true}>
+            <Grid placeContent="center">
+              <Heading
+                height="100px"
+                margin={12}
+                textAlign="center"
+                fontSize={["md", "2xl"]}
+                fontWeight="400"
+                opacity={0.75}
               >
-                {filter.category.toUpperCase()}
-              </Text>{" "}
-              category yet...
-            </Heading>
-            <Image src={searchSvg} m="auto" />
-          </Grid>
+                There is no note in the{" "}
+                <Text
+                  fontWeight="500"
+                  color={
+                    (filter.category === "home" && "teal.300") ||
+                    (filter.category === "work" && "purple.300") ||
+                    (filter.category === "personal" && "pink.300")
+                  }
+                  display="inline"
+                >
+                  {filter.category.toUpperCase()}
+                </Text>{" "}
+                category yet...
+              </Heading>
+              <Image src={searchSvg} m="auto" />
+            </Grid>
+          </SlideFade>
         ))}
     </Center>
   );

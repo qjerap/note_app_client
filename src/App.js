@@ -9,6 +9,7 @@ import {
   Heading,
   Image,
   Box,
+  SlideFade,
 } from "@chakra-ui/react";
 import loginSvg from "./assets/auth.svg";
 import Search from "./components/Filter/SearchBar";
@@ -46,23 +47,25 @@ function App() {
       {user.token ? (
         <Notes />
       ) : (
-        <Grid>
-          <Heading
-            height="100px"
-            margin={12}
-            textAlign="center"
-            fontSize={["xl", "2xl"]}
-            fontWeight="400"
-            opacity={0.75}
-          >
-            <strong>NoteWorld</strong> - digital notebook
-            <Box mt={3} fontSize={["md", "2xl"]}>
-              Sign in and start planing your day
-            </Box>
-          </Heading>
+        <SlideFade offsetY="20px" in={true}>
+          <Grid>
+            <Heading
+              height="100px"
+              margin={12}
+              textAlign="center"
+              fontSize={["xl", "2xl"]}
+              fontWeight="400"
+              opacity={0.75}
+            >
+              <strong>NoteWorld</strong> - digital notebook
+              <Box mt={3} fontSize={["md", "2xl"]}>
+                Sign in and start planing your day
+              </Box>
+            </Heading>
 
-          <Image src={loginSvg} m="auto" w={["100%","60%"]} />
-        </Grid>
+            <Image src={loginSvg} m="auto" w={["100%", "60%"]} />
+          </Grid>
+        </SlideFade>
       )}
     </Container>
   );
