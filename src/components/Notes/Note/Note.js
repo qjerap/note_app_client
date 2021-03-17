@@ -12,7 +12,11 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  useToast
+  useToast,
+  Fade,
+  ScaleFade,
+  Slide,
+  SlideFade,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
@@ -68,79 +72,88 @@ const Note = ({
     day: "numeric",
     year: "numeric",
     hour: "numeric",
-    minute: "numeric"
+    minute: "numeric",
   });
 
   return (
-    <Box
-      p={3}
-      borderColor={
-        (completed === true && borderColorCompleted) ||
-        (category === "home" && "teal.100") ||
-        (category === "work" && "purple.100") ||
-        (category === "personal" && "pink.100")
-      }
-      // h="13rem"
-      w="100%"
-      borderWidth="1px"
-      borderRadius="sm"
-      shadow={completed ? "none" : "md"}
-      overflow="hidden"
-      transition="all 0.3s"
-    >
-      <Flex justifyContent="space-between">
-        <Checkbox
-          value="completed"
-          onChange={handleCheck}
-          isChecked={completed}
-        />
-        <Center
-          fontWeight="semibold"
-          as="h1"
-          lineHeight="tight"
-          isTruncated
-          textDecoration={completed && "line-through"}
-          opacity={completed && 0.35}
-          color={
-            (completed === true && "gray") ||
-            (category === "home" && "teal.300") ||
-            (category === "work" && "purple.300") ||
-            (category === "personal" && "pink.300")
-          }
-        >
-          {title}
-        </Center>
-        <Box>
-          <Button
-            bg="transparent"
-            opacity={completed ? 0.35 : 0.75}
-            onClick={() => {
-              dispatch(setCurrentId(id));
-              onOpen();
-            }}
-          >
-            <EditIcon />
-          </Button>
-          <Button bg="transparent" opacity={0.75} onClick={handleDelete}>
-            <DeleteIcon />
-          </Button>
-        </Box>
-      </Flex>
+    <React.Fragment>
 
-      <Box mt={3} mb={3} fontSize={["md", "lg", "sm"]}>
-        <Text
-          isTruncated
+
+      <SlideFade
+      offsetY="20px"
+      in={true}
+      >
+        <Box
+          p={3}
+          borderColor={
+            (completed === true && borderColorCompleted) ||
+            (category === "home" && "teal.100") ||
+            (category === "work" && "purple.100") ||
+            (category === "personal" && "pink.100")
+          }
+          // h="13rem"
           w="100%"
-          noOfLines={4}
-          minH="80px"
-          opacity={completed && 0.35}
-          textDecoration={completed && "line-through"}
-          whiteSpace="pre-line"
+          borderWidth="1px"
+          borderRadius="sm"
+          shadow={completed ? "none" : "md"}
+          overflow="hidden"
+          transition="all 0.3s"
         >
-          {description}
-        </Text>
-      </Box>
-      <Box opacity={0.35}>{time}</Box>
+          <Flex justifyContent="space-between">
+            <Checkbox
+              value="completed"
+              onChange={handleCheck}
+              isChecked={completed}
+            />
+            <Center
+              fontWeight="semibold"
+              as="h1"
+              lineHeight="tight"
+              isTruncated
+              textDecoration={completed && "line-through"}
+              opacity={completed && 0.35}
+              color={
+                (completed === true && "gray") ||
+                (category === "home" && "teal.300") ||
+                (category === "work" && "purple.300") ||
+                (category === "personal" && "pink.300")
+              }
+            >
+              {title}
+            </Center>
+            <Box>
+              <Button
+                bg="transparent"
+                opacity={completed ? 0.35 : 0.75}
+                onClick={() => {
+                  dispatch(setCurrentId(id));
+                  onOpen();
+                }}
+              >
+                <EditIcon />
+              </Button>
+              <Button bg="transparent" opacity={0.75} onClick={handleDelete}>
+                <DeleteIcon />
+              </Button>
+            </Box>
+          </Flex>
+          <Box mt={3} mb={3} fontSize={["md", "lg", "sm"]}>
+            <Text
+              isTruncated
+              w="100%"
+              noOfLines={4}
+              minH="80px"
+              opacity={completed && 0.35}
+              textDecoration={completed && "line-through"}
+              whiteSpace="pre-line"
+            >
+              {description}
+            </Text>
+          </Box>
+          <Box opacity={0.35}>{time}</Box>
+        </Box>
+      </SlideFade>
+
 
       <Drawer
         isCentered
@@ -156,7 +169,7 @@ const Note = ({
           <Form onClose={onClose} />
         </DrawerContent>
       </Drawer>
-    </Box>
+    </React.Fragment>
   );
 };
 

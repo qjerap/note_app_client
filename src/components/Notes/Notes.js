@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Post from "./Note/Note";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchNotesAsync } from "../../Slices/notesSlice";
@@ -38,23 +38,28 @@ const Notes = () => {
     }
   }, [notes, filter]);
 
+  function NotesTest() {
+    const notesTest = notes;
+    return notesTest.map((note) => <li key={note._id}>{note.title}</li>);
+  }
+
   return (
     <Center>
       {/* IF there is no notes to display*/}
       {notes.length <= 0 && (
         <Grid placeContent="center">
           <Heading
-          height="100px"
+            height="100px"
             margin={12}
             textAlign="center"
-            fontSize={["xl","2xl"]}
+            fontSize={["xl", "2xl"]}
             fontWeight="400"
             opacity={0.75}
           >
             Let's add our
             <strong> first note</strong>!
           </Heading>
-          <Image src={emptySvg} m="auto" w={["100%","60%"]}/>
+          <Image src={emptySvg} m="auto" w={["100%", "60%"]} />
         </Grid>
       )}
       {notes.length > 0 &&
@@ -90,10 +95,10 @@ const Notes = () => {
           /* IF there is no notes MATCHING with the search bar input*/
           <Grid placeContent="center">
             <Heading
-            height="100px"
+              height="100px"
               margin={12}
               textAlign="center"
-              fontSize={["md","2xl"]}
+              fontSize={["md", "2xl"]}
               fontWeight="400"
               opacity={0.75}
             >
@@ -103,17 +108,16 @@ const Notes = () => {
               </Text>{" "}
               »
             </Heading>
-            <Image src={searchSvg} m="auto"/>
+            <Image src={searchSvg} m="auto" />
           </Grid>
         ) : (
           /* IF there is no notes IN A SPECIFIC CATEGORY*/
           <Grid placeContent="center">
             <Heading
-            height="100px"
-
+              height="100px"
               margin={12}
               textAlign="center"
-              fontSize={["md","2xl"]}
+              fontSize={["md", "2xl"]}
               fontWeight="400"
               opacity={0.75}
             >

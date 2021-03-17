@@ -7,6 +7,7 @@ import {
   Button,
   useToast,
   Grid,
+  Spinner,
 } from "@chakra-ui/react";
 import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +15,7 @@ import { signInAsync, signUpAsync, authError } from "../../Slices/authSlice";
 
 const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
   const toast = useToast();
@@ -35,12 +37,14 @@ const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsFetching(true)
 
     if (isSignUp) {
       dispatch(signUpAsync(formData));
     } else {
       dispatch(signInAsync(formData));
     }
+    
   };
 
   const handleShowPassword = () => {
@@ -57,6 +61,7 @@ const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
         duration: 2000,
         isClosable: true,
       });
+      setIsFetching(false)
     }
 
     if (user.error) {
@@ -66,8 +71,12 @@ const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
         status: "error",
         duration: 2000,
         isClosable: true,
-        onCloseComplete: (() => {dispatch(authError(""))})
+        onCloseComplete: () => {
+          dispatch(authError(""));
+        },
       });
+      setIsFetching(false)
+
     }
   }, [user.profile._id, user.error]);
 
@@ -137,9 +146,17 @@ const JWTLogin = ({ isSignUp, setIsSignUp, onClose }) => {
             />
           </FormControl>
         )}
-        <Button colorScheme="blue" type="submit" fontSize="sm" mt={3}>
-          {isSignUp ? "Sign Up" : "Sign In"}
-        </Button>
+
+        {isFetching ? (
+          <Button colorScheme="blue" type="submit" fontSize="sm" mt={3}>
+            <Spinner />
+          </Button>
+        ) : (
+          <Button colorScheme="blue" type="submit" fontSize="sm" mt={3}>
+            {isSignUp ? "Sign Up" : "Sign In"}
+          </Button>
+        )}
+
         <Button
           colorScheme="blue"
           variant="ghost"
